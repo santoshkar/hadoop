@@ -18,6 +18,8 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import santosh.mapreduce.WordCount.Map.Reduce;
+
 public class WordCount {
 
 	private static final Logger logger = LoggerFactory.getLogger(WordCount.class);
@@ -74,8 +76,8 @@ public class WordCount {
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-		Path outputPath = new Path(args[1]);
-		outputPath.getFileSystem(conf).delete(outputPath);
+		/*Path outputPath = new Path(args[1]);
+		outputPath.getFileSystem(conf).delete(outputPath);*/
 		System.exit(job.waitForCompletion(true) ? 0 : 1);
 
 		logger.info("{} WordCount Done. job:" + job);
