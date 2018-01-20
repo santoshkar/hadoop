@@ -15,8 +15,12 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WordCount {
+
+	private static final Logger logger = LoggerFactory.getLogger(WordCount.class);
 
 	public static class Map extends
 			Mapper<LongWritable, Text, Text, IntWritable> {
@@ -50,12 +54,14 @@ public class WordCount {
 
 	public static void main(String args[])throws Exception{
 
+		logger.info("{} WordCount");
+
 		Configuration conf = new Configuration();
 		Job job = new Job(conf, "mywc");
 
 		job.setJarByClass(WordCount.class);
 		job.setMapperClass(Map.class);
-		job.setReducerClass(Reducer.class);
+		job.setReducerClass(Reduce.class);
 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
@@ -68,9 +74,11 @@ public class WordCount {
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-		// Path outputPath = new Path(args[1]);
-		// outputPath.getFileSystem(conf).delete(outputPath);
-		// System.exit(job.waitForCompletion(true) ? 0 : 1);
+		Path outputPath = new Path(args[1]);
+		outputPath.getFileSystem(conf).delete(outputPath);
+		System.exit(job.waitForCompletion(true) ? 0 : 1);
+
+		logger.info("{} WordCount Done. job:" + job);
 	}
 
 }
