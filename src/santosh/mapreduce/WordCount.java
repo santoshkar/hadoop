@@ -63,12 +63,13 @@ public class WordCount {
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
 
-		Path outputPath = new Path(args[1]);
+		
 
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-		outputPath.getFileSystem(conf).delete(outputPath);
+		// Path outputPath = new Path(args[1]);
+		// outputPath.getFileSystem(conf).delete(outputPath);
 		// System.exit(job.waitForCompletion(true) ? 0 : 1);
 	}
 
